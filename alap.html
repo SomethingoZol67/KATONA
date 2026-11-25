@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katona</title>
+    <link rel="stylesheet" href="szinek.css">
+</head>
+<body>
+    <div id="kezdolap" class="tabcontent">
+    <h1>Kezdőlap</h1>
+    </div>
+
+    <div id="kepek" class="tabcontent">
+    <h1>Képek</h1>
+    </div>
+
+    <div id="palya" class="tabcontent">
+    <h1>Pálya</h1>
+    </div>
+
+    <div id="kredit" class="tabcontent">
+    <h1>Kreditek</h1>
+    </div>
+    <button class="tablink" onclick="openOldal('kezdolap', this, 'red')" id="defaultOpen">Kezdőlap</button>
+    <button class="tablink" onclick="openOldal('kepek', this, 'orange')">Képek</button>
+    <button class="tablink" onclick="openOldal('palya', this, 'green')">Pálya</button>
+    <button class="tablink" onclick="openOldal('kredit', this, 'blue')">Kreditek</button>
+    <div id="kezdolap-oldal" class="tabpage">
+        <h1>Üdvözöllek a kezdőlapon!</h1>
+        <p>NAGYON SOK SZÖVEG</p>
+    </div>
+
+    <div id="kepek-oldal" class="tabpage">
+        <h1>Képgaléria</h1>
+        <p>Itt amugy nem lesznek képek</p>
+    </div>
+
+    <div id="palya-oldal" class="tabpage">
+        <h1>A projekt elkészítése</h1>
+        <p>naaaaaaaaaaaaaaaaaaaaaaa</p>
+    <div id="jatek-ablak">
+    
+    <img id="helyszin-kep" src="katonakepek/image.png" alt="GMod Pálya">
+    
+
+    <div id="vezerlok">
+        <button id="gomb-balra" onclick="lep('balra')">⬅ Balra</button>
+        <button id="gomb-elore" onclick="lep('elore')">⬆ Előre</button>
+        <button id="gomb-hatra" onclick="lep('hatra')">⬇ Hátra</button>
+        <button id="gomb-jobbra" onclick="lep('jobbra')">➡ Jobbra</button>
+    </div>
+    <button id="gomb-fullscreen" onclick="teljesKepernyo()">⛶ Teljes képernyő</button>
+    </div>
+    </div>
+
+    <div id="kredit-oldal" class="tabpage">
+        <h1>Köszönetnyilvánítás</h1>
+        <p>Itt vannak a kreditek csak nincsnek</p>
+    </div>
+    
+<script>
+        function openOldal(Name,elmnt,color) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].style.backgroundColor = "";
+        }
+                tabpages = document.getElementsByClassName("tabpage");
+        for (i = 0; i < tabpages.length; i++) {
+            tabpages[i].style.display = "none";
+        }
+        document.getElementById(Name).style.display = "block";
+        document.getElementById(Name + "-oldal").style.display = "block";
+        elmnt.style.backgroundColor = color;
+        }
+document.getElementById("defaultOpen").click();
+const palya = {
+    "kezdes": {
+        kep: "katonakepek/image.png",
+        elore: "folyoso_1",
+        jobbra: "c", 
+        balra: null,
+        hatra: null
+    },
+    "folyoso_1": {
+        kep: "katonakepek/image2.png",
+        elore: "terem",
+        jobbra: "titkos_szoba",
+        balra: null,
+        hatra: "kezdes"
+    },
+    "titkos_szoba": {
+        kep: "katonakepek/image3.png",
+        elore: null,
+        jobbra: "d",
+        balra: null,
+        hatra: "folyoso_1" 
+    },
+    "terem": {
+        kep: "katonakepek/image4.png",
+        elore: null,
+        jobbra: null,
+        balra: "e",
+        hatra: "folyoso_1"
+    },
+    "a": {
+        kep: "katonakepek/image5.png",
+        elore: "e",
+        jobbra: null,
+        balra: null,
+        hatra: "folyoso_1"
+    },
+    "b": {
+        kep: "katonakepek/image6.png",
+        elore: "terem",
+        jobbra: null,
+        balra: null,
+        hatra: "titkos_szoba"
+    },
+    "c": {
+        kep: "katonakepek/image7.png",
+        elore: null,
+        jobbra:"e",
+        balra: null,
+        hatra: "b"
+    },
+    "d": {
+        kep: "katonakepek/image8.png",
+        elore: null,
+        jobbra: null,
+        balra: null,
+        hatra: "a"
+    },
+    "e": {
+        kep: "katonakepek/image9.png",
+        elore: null,
+        jobbra: null,
+        balra: null,
+        hatra: "terem"
+    }
+};
+
+let aktualisHely = "kezdes";
+
+
+function frissit() {
+    const adat = palya[aktualisHely];
+    document.getElementById("helyszin-kep").src = adat.kep;
+
+
+    document.getElementById("gomb-elore").classList.toggle("rejtett", !adat.elore);
+    document.getElementById("gomb-hatra").classList.toggle("rejtett", !adat.hatra);
+    document.getElementById("gomb-balra").classList.toggle("rejtett", !adat.balra);
+    document.getElementById("gomb-jobbra").classList.toggle("rejtett", !adat.jobbra);
+}
+
+
+function lep(irany) {
+    const kovetkezoHely = palya[aktualisHely][irany];
+    if (kovetkezoHely) {
+        aktualisHely = kovetkezoHely;
+        frissit();
+    }
+}
+
+document.addEventListener("keydown", function(event) {
+    const palyaOldal = document.getElementById("palya-oldal");
+         
+    if (palyaOldal.style.display === "none" || palyaOldal.style.display === "") {
+        return; 
+    }
+    if (event.key === "ArrowUp" || event.key === "w") {
+        lep("elore");
+    } else if (event.key === "ArrowDown" || event.key === "s") {
+        lep("hatra");
+    } else if (event.key === "ArrowLeft" || event.key === "a") {
+        lep("balra");
+    } else if (event.key === "ArrowRight" || event.key === "d") {
+        lep("jobbra");
+    }
+});
+
+async function teljesKepernyo() {
+    const jatekAblak = document.getElementById("jatek-ablak");
+
+    if (!document.fullscreenElement) {
+        try {
+            if (jatekAblak.requestFullscreen) {
+                await jatekAblak.requestFullscreen();
+            } else if (jatekAblak.webkitRequestFullscreen) { 
+                await jatekAblak.webkitRequestFullscreen();
+            }
+
+            
+            if (screen.orientation && screen.orientation.lock) {
+                await screen.orientation.lock("landscape");
+            }
+        } catch (err) {
+            console.log("Elforgatás nem támogatott ezen az eszközön.");
+        }
+    } else {
+        if (document.exitFullscreen) {
+            await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            await document.webkitExitFullscreen();
+        }
+        
+        if (screen.orientation && screen.orientation.unlock) {
+            screen.orientation.unlock();
+        }
+    }
+}
+frissit();
+</script>
+</body>
+</html>
