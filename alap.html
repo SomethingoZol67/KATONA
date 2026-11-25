@@ -11,19 +11,19 @@
     <h1>Kezdőlap</h1>
     </div>
 
-    <div id="kepek" class="tabcontent">
-    <h1>Képek</h1>
+    <div id="fejlodes" class="tabcontent">
+        <h1>Pálya állapot</h1>
     </div>
 
     <div id="palya" class="tabcontent">
-    <h1>Pálya</h1>
+    <h1> A pálya</h1>
     </div>
 
     <div id="kredit" class="tabcontent">
     <h1>Kreditek</h1>
     </div>
     <button class="tablink" onclick="openOldal('kezdolap', this, 'red')" id="defaultOpen">Kezdőlap</button>
-    <button class="tablink" onclick="openOldal('kepek', this, 'orange')">Képek</button>
+    <button class="tablink" onclick="openOldal('fejlodes', this, 'orange')">Fejlesztés</button>
     <button class="tablink" onclick="openOldal('palya', this, 'green')">Pálya</button>
     <button class="tablink" onclick="openOldal('kredit', this, 'blue')">Kreditek</button>
     <div id="kezdolap-oldal" class="tabpage">
@@ -31,11 +31,37 @@
         <p>NAGYON SOK SZÖVEG</p>
     </div>
 
-    <div id="kepek-oldal" class="tabpage">
-        <h1>Képgaléria</h1>
-        <p>Itt amugy nem lesznek képek</p>
+    <div id="fejlodes-oldal" class="tabpage">
+        <h1>Pálya állapot</h1>
+        <p>Jelenleg így állunk a pályával</p>
+        <div class="progress-kontener">
+            <div class="progress-fejlec">
+                <span>Összesített készültség:</span>
+                <strong id="szazalek-kiiras">0%</strong>
+            </div>
+            <div class="progress-hatter">
+                <div id="progress-csik" class="progress-toltes"></div>
+            </div>
+            <div class="szuro-gombok">
+                <button class="aktiv-szuro" onclick="tablazatSzures('osszes', this)">Összes (11)</button>
+                <button onclick="tablazatSzures('folyamatban', this)">⏳ Készülőben</button>
+                <button onclick="tablazatSzures('kesz', this)">✅ Kész</button>
+            </div>
+        </div>
+        <div class="tabla-gorgeto">
+            <table class="allapot-tabla">
+                <thead>
+                    <tr>
+                        <th>Helyszín</th>
+                        <th>Zónája</th>
+                        <th>Állapot</th>
+                    </tr>
+                </thead>
+                <tbody id="helyszin-tabla-test">
+                </tbody>
+            </table>
+        </div>
     </div>
-
     <div id="palya-oldal" class="tabpage">
         <h1>A projekt elkészítése</h1>
         <p>naaaaaaaaaaaaaaaaaaaaaaa</p>
@@ -60,162 +86,235 @@
     </div>
     
 <script>
-        function openOldal(Name,elmnt,color) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablink");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].style.backgroundColor = "";
-        }
-                tabpages = document.getElementsByClassName("tabpage");
-        for (i = 0; i < tabpages.length; i++) {
-            tabpages[i].style.display = "none";
-        }
-        document.getElementById(Name).style.display = "block";
-        document.getElementById(Name + "-oldal").style.display = "block";
-        elmnt.style.backgroundColor = color;
-        }
-document.getElementById("defaultOpen").click();
-const palya = {
-    "kezdes": {
-        kep: "katonakepek/image.png",
-        elore: "folyoso_1",
-        jobbra: "c", 
-        balra: null,
-        hatra: null
-    },
-    "folyoso_1": {
-        kep: "katonakepek/image2.png",
-        elore: "terem",
-        jobbra: "titkos_szoba",
-        balra: null,
-        hatra: "kezdes"
-    },
-    "titkos_szoba": {
-        kep: "katonakepek/image3.png",
-        elore: null,
-        jobbra: "d",
-        balra: null,
-        hatra: "folyoso_1" 
-    },
-    "terem": {
-        kep: "katonakepek/image4.png",
-        elore: null,
-        jobbra: null,
-        balra: "e",
-        hatra: "folyoso_1"
-    },
-    "a": {
-        kep: "katonakepek/image5.png",
-        elore: "e",
-        jobbra: null,
-        balra: null,
-        hatra: "folyoso_1"
-    },
-    "b": {
-        kep: "katonakepek/image6.png",
-        elore: "terem",
-        jobbra: null,
-        balra: null,
-        hatra: "titkos_szoba"
-    },
-    "c": {
-        kep: "katonakepek/image7.png",
-        elore: null,
-        jobbra:"e",
-        balra: null,
-        hatra: "b"
-    },
-    "d": {
-        kep: "katonakepek/image8.png",
-        elore: null,
-        jobbra: null,
-        balra: null,
-        hatra: "a"
-    },
-    "e": {
-        kep: "katonakepek/image9.png",
-        elore: null,
-        jobbra: null,
-        balra: null,
-        hatra: "terem"
-    }
-};
-
-let aktualisHely = "kezdes";
-
-
-function frissit() {
-    const adat = palya[aktualisHely];
-    document.getElementById("helyszin-kep").src = adat.kep;
-
-
-    document.getElementById("gomb-elore").classList.toggle("rejtett", !adat.elore);
-    document.getElementById("gomb-hatra").classList.toggle("rejtett", !adat.hatra);
-    document.getElementById("gomb-balra").classList.toggle("rejtett", !adat.balra);
-    document.getElementById("gomb-jobbra").classList.toggle("rejtett", !adat.jobbra);
-}
-
-
-function lep(irany) {
-    const kovetkezoHely = palya[aktualisHely][irany];
-    if (kovetkezoHely) {
-        aktualisHely = kovetkezoHely;
-        frissit();
-    }
-}
-
-document.addEventListener("keydown", function(event) {
-    const palyaOldal = document.getElementById("palya-oldal");
-         
-    if (palyaOldal.style.display === "none" || palyaOldal.style.display === "") {
-        return; 
-    }
-    if (event.key === "ArrowUp" || event.key === "w") {
-        lep("elore");
-    } else if (event.key === "ArrowDown" || event.key === "s") {
-        lep("hatra");
-    } else if (event.key === "ArrowLeft" || event.key === "a") {
-        lep("balra");
-    } else if (event.key === "ArrowRight" || event.key === "d") {
-        lep("jobbra");
-    }
-});
-
-async function teljesKepernyo() {
-    const jatekAblak = document.getElementById("jatek-ablak");
-
-    if (!document.fullscreenElement) {
-        try {
-            if (jatekAblak.requestFullscreen) {
-                await jatekAblak.requestFullscreen();
-            } else if (jatekAblak.webkitRequestFullscreen) { 
-                await jatekAblak.webkitRequestFullscreen();
+        function openOldal(Name, elmnt, color) {
+            var i, tabcontent, tablinks, tabpages;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
             }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+            }
+            tabpages = document.getElementsByClassName("tabpage");
+            for (i = 0; i < tabpages.length; i++) {
+                tabpages[i].style.display = "none";
+            }
+            document.getElementById(Name).style.display = "block";
+            document.getElementById(Name + "-oldal").style.display = "block";
+            elmnt.style.backgroundColor = color;
+        }
 
+        document.getElementById("defaultOpen").click();
+
+        const palya = {
+            "kezdes": {
+                kep: "katonakepek/image.png",
+                elore: "folyoso_1",
+                jobbra: "c", 
+                balra: null,
+                hatra: null
+            },
+            "folyoso_1": {
+                kep: "katonakepek/image2.png",
+                elore: "terem",
+                jobbra: "titkos_szoba",
+                balra: null,
+                hatra: "kezdes"
+            },
+            "titkos_szoba": {
+                kep: "katonakepek/image3.png",
+                elore: null,
+                jobbra: "d",
+                balra: null,
+                hatra: "folyoso_1" 
+            },
+            "terem": {
+                kep: "katonakepek/image4.png",
+                elore: null,
+                jobbra: null,
+                balra: "e",
+                hatra: "folyoso_1"
+            },
+            "a": {
+                kep: "katonakepek/image5.png",
+                elore: "e",
+                jobbra: null,
+                balra: null,
+                hatra: "folyoso_1"
+            },
+            "b": {
+                kep: "katonakepek/image6.png",
+                elore: "terem",
+                jobbra: null,
+                balra: null,
+                hatra: "titkos_szoba"
+            },
+            "c": {
+                kep: "katonakepek/image7.png",
+                elore: null,
+                jobbra: "e",
+                balra: null,
+                hatra: "b"
+            },
+            "d": {
+                kep: "katonakepek/image8.png",
+                elore: null,
+                jobbra: null,
+                balra: null,
+                hatra: "a"
+            },
+            "e": {
+                kep: "katonakepek/image9.png",
+                elore: null,
+                jobbra: null,
+                balra: null,
+                hatra: "terem"
+            }
+        };
+
+        let aktualisHely = "kezdes";
+
+        function frissit() {
+            const adat = palya[aktualisHely];
+            document.getElementById("helyszin-kep").src = adat.kep;
+
+            document.getElementById("gomb-elore").classList.toggle("rejtett", !adat.elore);
+            document.getElementById("gomb-hatra").classList.toggle("rejtett", !adat.hatra);
+            document.getElementById("gomb-balra").classList.toggle("rejtett", !adat.balra);
+            document.getElementById("gomb-jobbra").classList.toggle("rejtett", !adat.jobbra);
+        }
+
+        function lep(irany) {
+            const kovetkezoHely = palya[aktualisHely][irany];
+            if (kovetkezoHely) {
+                aktualisHely = kovetkezoHely;
+                frissit();
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            const palyaOldal = document.getElementById("palya-oldal");
+                 
+            if (palyaOldal.style.display === "none" || palyaOldal.style.display === "") {
+                return; 
+            }
+            if (event.key === "ArrowUp" || event.key === "w") {
+                lep("elore");
+            } else if (event.key === "ArrowDown" || event.key === "s") {
+                lep("hatra");
+            } else if (event.key === "ArrowLeft" || event.key === "a") {
+                lep("balra");
+            } else if (event.key === "ArrowRight" || event.key === "d") {
+                lep("jobbra");
+            }
+        });
+
+        async function teljesKepernyo() {
+            const jatekAblak = document.getElementById("jatek-ablak");
+
+            if (!document.fullscreenElement) {
+                try {
+                    if (jatekAblak.requestFullscreen) {
+                        await jatekAblak.requestFullscreen();
+                    } else if (jatekAblak.webkitRequestFullscreen) { 
+                        await jatekAblak.webkitRequestFullscreen();
+                    }
+                    
+                    if (screen.orientation && screen.orientation.lock) {
+                        await screen.orientation.lock("landscape");
+                    }
+                } catch (err) {
+                    console.log("Elforgatás nem támogatott.");
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    await document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    await document.webkitExitFullscreen();
+                }
+                
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            }
+        }
+
+   
+        const helyszinekLista = [
+            { nev: "Földszinti folyosó", zona: "Földszint", kesz: true },
+            { nev: "1. emeleti folyosó", zona: "1. emelet", kesz: true },
+            { nev: "2. emeleti folyosó", zona: "2. emelet", kesz: true },
+            { nev: "Bejárat", zona: "Kint", kesz: true },
+            { nev: "18-as terem", zona: "1. emelet", kesz: true },
+            { nev: "30-as terem", zona: "1. emelet", kesz: true },
+            { nev: "Földszinti informatika termek", zona: "Földszint", kesz: false },
+            { nev: "23-as info terem", zona: "1. emelet", kesz: false },
+            { nev: "WC-k", zona: "Földszint; 1. emelet; 2. emelet", kesz: false },
+            { nev: "Ebédlő", zona: "Lépcső", kesz: false },
+            { nev: "Udvar", zona: "Kint", kesz: false },
+            { nev: "Tornaterem", zona: "Külső épület", kesz: false }
+        ];
+
+        let aktualisSzuro = "osszes";
+
+        function tablazatFrissites() {
+            const tablaTest = document.getElementById("helyszin-tabla-test");
+            tablaTest.innerHTML = "";
+
+            let keszekSzama = 0;
+
+            helyszinekLista.forEach((hely) => {
+                if (hely.kesz) keszekSzama++;
+                if (aktualisSzuro === "kesz" && !hely.kesz) return;
+                if (aktualisSzuro === "folyamatban" && hely.kesz) return;
+
+                const sor = document.createElement("tr");
+                sor.className = hely.kesz ? "sor-kesz" : "sor-folyamatban";
+
+
+                const allapotJelvény = hely.kesz 
+                    ? `<span class="jelveny-kesz">✅ Kész</span>` 
+                    : `<span class="jelveny-folyamatban">⏳ Készülőben</span>`;
+
+                sor.innerHTML = `
+                    <td><strong>${hely.nev}</strong></td>
+                    <td>${hely.zona}</td>
+                    <td>${allapotJelvény}</td>
+                `;
+
+                tablaTest.appendChild(sor);
+            });
+
+            const szazalek = Math.round((keszekSzama / helyszinekLista.length) * 100);
+            const csik = document.getElementById("progress-csik");
+            const szoveg = document.getElementById("szazalek-kiiras");
+
+            csik.style.width = szazalek + "%";
+            szoveg.innerText = `${szazalek}% (${keszekSzama} / ${helyszinekLista.length} helyszín kész)`;
+
+            if (szazalek < 40) {
+                csik.style.backgroundColor = "#e74c3c";
+            } else if (szazalek < 80) {
+                csik.style.backgroundColor = "#f39c12";
+            } else {
+                csik.style.backgroundColor = "#2ecc71";
+            }
+        }
+
+        function tablazatSzures(szuroTipus, gombElem) {
+            aktualisSzuro = szuroTipus;
             
-            if (screen.orientation && screen.orientation.lock) {
-                await screen.orientation.lock("landscape");
-            }
-        } catch (err) {
-            console.log("Elforgatás nem támogatott ezen az eszközön.");
+            const gombok = document.querySelectorAll(".szuro-gombok button");
+            gombok.forEach(btn => btn.classList.remove("aktiv-szuro"));
+            if (gombElem) gombElem.classList.add("aktiv-szuro");
+
+            tablazatFrissites();
         }
-    } else {
-        if (document.exitFullscreen) {
-            await document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-            await document.webkitExitFullscreen();
-        }
-        
-        if (screen.orientation && screen.orientation.unlock) {
-            screen.orientation.unlock();
-        }
-    }
-}
-frissit();
+
+
+        tablazatFrissites();
+        frissit();
 </script>
 </body>
 </html>
